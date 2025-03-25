@@ -66,7 +66,9 @@ function State.new(picker)
   picker.list.win:on("DirChanged", function(_, ev)
     local p = ref()
     if p then
-      p:set_cwd(svim.fs.normalize(ev.file))
+      if not Tree:in_cwd(p:cwd(), ev.file) then
+        p:set_cwd(svim.fs.normalize(ev.file))
+      end
       p:find()
     end
   end)
